@@ -5,6 +5,11 @@
 package csci.pkg366.pkgfinal.project;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +49,11 @@ public class Answers implements Serializable {
     @JoinColumn(name = "question_id", referencedColumnName = "question_id")
     @ManyToOne(optional = false)
     private Questions questionId;
+    
+    
+    private static String jdbcURL = "jdbc:postgresql://localhost:5432/FinalProject";
+    private static String username2 = "postgres";
+    private static String password2 = "Biden&?43";
 
     public Answers() {
     }
@@ -114,4 +124,58 @@ public class Answers implements Serializable {
         return "csci.pkg366.pkgfinal.project.Answers[ answerId=" + answerId + " ]";
     }
     
+    
+    //SQL Queries
+    public static void updateAnswerText(String text, int id) {
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL, username2, password2);
+            String getUsers = "UPDATE answer SET answer_text = ? WHERE answer_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(getUsers);
+            pstmt.setString(1, text);
+            pstmt.setInt(1, id);
+            pstmt.executeQuery();
+        } catch (SQLException sqle) {
+            System.out.println("error updating");
+        }
+    }
+    
+    public static void updateIsCorrect(boolean isCorrect, int id) {
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL, username2, password2);
+            String getUsers = "UPDATE answer SET is_correct = ? WHERE answer_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(getUsers);
+            pstmt.setBoolean(1, isCorrect);
+            pstmt.setInt(1, id);
+            pstmt.executeQuery();
+        } catch (SQLException sqle) {
+            System.out.println("error updating");
+        }
+    }
+    
+    public static void createAnswer(String text, boolean isCorrect, int questionID) {
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL, username2, password2);
+            String getUsers = "INSERT INTO answers (answer_text, is_correct, question_id)"
+                    + " VALUES (?, ?, ?)";
+            PreparedStatement pstmt = connection.prepareStatement(getUsers);
+            pstmt.setString(1, text);
+            pstmt.setBoolean(2, isCorrect);
+            pstmt.setInt(3, questionID);
+            pstmt.executeQuery();
+        } catch (SQLException sqle) {
+            System.out.println("error creating");
+        }
+    }
+    
+    public static void deleteAnswer(int id) {
+        try {
+            Connection connection = DriverManager.getConnection(jdbcURL, username2, password2);
+            String getUsers = "DELETE FROM answers WHERE answer_id = ?";
+            PreparedStatement pstmt = connection.prepareStatement(getUsers);
+            pstmt.setInt(1, id);
+            pstmt.executeQuery();
+        } catch (SQLException sqle) {
+            System.out.println("error deleting");
+        }
+    }
 }

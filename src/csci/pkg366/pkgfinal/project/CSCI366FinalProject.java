@@ -15,6 +15,8 @@ public class CSCI366FinalProject {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        
+        AdminFunctionality.showAdminOptions();
     }
     
 }

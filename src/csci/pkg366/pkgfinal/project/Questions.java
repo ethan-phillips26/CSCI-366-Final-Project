@@ -130,4 +130,9 @@ public class Questions implements Serializable {
         return "csci.pkg366.pkgfinal.project.Questions[ questionId=" + questionId + " ]";
     }
     
+    //SQLQueries
+    public static createQuestion(text, points) {
+        
+    }
+    
 }
