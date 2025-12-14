@@ -173,10 +173,12 @@ public class TestCreator {
         q.setAnswersCollection(collection);
     }
     
-    public void QuestionBuilder(){
+    public void QuestionBuilder(Tests t){
         Questions question = new Questions();
         String textInput = "";
         String enterAnsNow = "N";
+        int points = 0;
+        Collection<Questions> collection = t.getQuestionsCollection();
         System.out.println("Enter the question:");
         textInput = scan.nextLine();
         question.setQuestionText(textInput);
@@ -186,19 +188,33 @@ public class TestCreator {
         if(enterAnsNow.equals("Y")){
             AnswerBuilder(question);
         }
+        System.out.println("How many points?:");
+        points = scan.nextInt();
+        collection.add(question);
+        t.setQuestionsCollection(collection);
     }
     
     public void TestBuilder(){
-        
+        Tests test = new Tests();
+        String title;
+        int questionNum;
+        System.out.println("Enter test title:");
+        title = scan.nextLine();
+        test.setTitle(title);
+        System.out.println("How many questions?:");
+        questionNum = scan.nextInt();
+        for(int i = 0; i < questionNum; i++){
+            QuestionBuilder(test);
+        }
     }
     
-    public void DisplayCreatedTests(Users id){
+    public void DisplayCreatedTests(int id){
         try{
             Class.forName("org.postgresql.Driver");
             Connection connection = DriverManager.getConnection(jdbcURL, username, password);
             String getTests = "SELECT * FROM Tests WHERE creator_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getTests);
-            pstmt.setObject(1, id);
+            pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
             while(rs.next()){
