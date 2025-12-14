@@ -21,7 +21,7 @@ public class TestCreator {
     Scanner scan = new Scanner(System.in);
     static String jdbcURL = "jdbc:postgresql://localhost:5432/SimpleCompany";
     static String username = "postgres";
-    static String password = "Ahegaoahegao1!";
+    static String password = "postgres123";
     
     public void AnswerBuilder(Questions q){
         String correct = "";
@@ -203,7 +203,6 @@ public class TestCreator {
 
             while(rs.next()){
                 System.out.println("Test Title: " + rs.getString("title"));
-                System.out.println("dept name: " + rs.getString("department_name"));
                 System.out.println("--------------------");
             }
             System.out.println("Done");
