@@ -1,14 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
+
 package csci.pkg366.pkgfinal.project;
 
 import java.util.Scanner;
 
 /**
  *
- * @author ethan
+ * @author Ethan and Hariom
  */
 public class CSCI366FinalProject {
 
@@ -28,7 +25,7 @@ public class CSCI366FinalProject {
             switch (choice) {
                 case "1":
                     clearConsole();
-                    currentUser = Login.loginPrompt();
+                    currentUser = Login.loginPrompt(scan);
                     if (currentUser != null) {
                         loggedInMenu(scan, currentUser);
                         currentUser = null;
@@ -37,7 +34,7 @@ public class CSCI366FinalProject {
 
                 case "2":
                     clearConsole();
-                    Users newUser = ManageAccount.createAccount();
+                    Users newUser = ManageAccount.createAccount(scan);
                     if (newUser != null) {
                         currentUser = newUser;
                         loggedInMenu(scan, currentUser);
@@ -56,13 +53,24 @@ public class CSCI366FinalProject {
     }
 
     private static void loggedInMenu(Scanner scan, Users user) {
+        final boolean isStudent = user != null && user.getUserType() != null
+                && user.getUserType().equalsIgnoreCase("STUDENT");
+        final Student student = isStudent ? new Student(user, scan) : null;
+
         while (true) {
+            clearConsole();
             System.out.println("\n==== Logged In ====");
             ManageAccount.displayUserInfo(user);
 
             System.out.println("1) Update account");
             System.out.println("2) Delete account");
             System.out.println("3) Logout");
+            if (isStudent) {
+                System.out.println("4) View available tests");
+                System.out.println("5) Take a test");
+                System.out.println("6) View past tests");
+                System.out.println("7) View results (pick a test)");
+            }
             System.out.print("Choose: ");
 
             String choice = scan.nextLine().trim();
@@ -70,17 +78,69 @@ public class CSCI366FinalProject {
             switch (choice) {
                 case "1":
                     clearConsole();
-                    ManageAccount.updateAccount(user);
+                    ManageAccount.updateAccount(scan, user);
+                    pause(scan);
                     break;
 
                 case "2":
                     clearConsole();
-                    boolean deleted = ManageAccount.deleteAccount(user);
+                    boolean deleted = ManageAccount.deleteAccount(scan, user);
                     if (deleted) return;
+                    pause(scan);
                     break;
 
                 case "3":
                     return;
+
+                case "4":
+                    if (!isStudent) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    clearConsole();
+                    System.out.println(student.ViewAvailableTests());
+                    pause(scan);
+                    break;
+
+                case "5":
+                    if (!isStudent) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    clearConsole();
+                    student.TakeTest();
+                    pause(scan);
+                    break;
+
+                case "6":
+                    if (!isStudent) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    clearConsole();
+                    System.out.println(student.ViewPastTests());
+                    pause(scan);
+                    break;
+
+                case "7":
+                    if (!isStudent) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    clearConsole();
+                    System.out.print("Enter test_id to view results (or blank to cancel): ");
+                    String rawTestId = scan.nextLine().trim();
+                    if (rawTestId.isEmpty()) break;
+                    try {
+                        int testId = Integer.parseInt(rawTestId);
+                        Tests t = new Tests(testId);
+                        System.out.println(student.ViewResults(t));
+                        pause(scan);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid test_id.");
+                        pause(scan);
+                    }
+                    break;
 
                 default:
                     System.out.println("Invalid option.");
@@ -89,8 +149,19 @@ public class CSCI366FinalProject {
     }
     
     public static void clearConsole() {
-        for (int i = 0; i < 100; i++) {
-            System.out.println();
+        // ANSI clear screen (works in VS Code terminal / Windows Terminal)
+        try {
+            System.out.print("\u001b[H\u001b[2J");
+            System.out.flush();
+        } catch (Exception ignored) {
+            for (int i = 0; i < 100; i++) {
+                System.out.println();
+            }
         }
-}
+    }
+
+    private static void pause(Scanner scan) {
+        System.out.print("\nPress Enter to continue...");
+        scan.nextLine();
+    }
 }
