@@ -56,6 +56,9 @@ public class CSCI366FinalProject {
         final boolean isStudent = user != null && user.getUserType() != null
                 && user.getUserType().equalsIgnoreCase("STUDENT");
         final Student student = isStudent ? new Student(user, scan) : null;
+        
+        final boolean isManager = user != null && user.getUserType() != null
+                && user.getUserType().equalsIgnoreCase("MANAGER");
 
         while (true) {
             clearConsole();
@@ -70,6 +73,10 @@ public class CSCI366FinalProject {
                 System.out.println("5) Take a test");
                 System.out.println("6) View past tests");
                 System.out.println("7) View results (pick a test)");
+            }
+            if (isManager) {
+                System.out.println("8) Edit Current Users");
+                System.out.println("9) Create new User");
             }
             System.out.print("Choose: ");
 
@@ -141,7 +148,19 @@ public class CSCI366FinalProject {
                         pause(scan);
                     }
                     break;
-
+                case "8":
+                    if (!isManager) {
+                        System.out.println("Invalid Option");
+                        break;
+                    }
+                    ManagerFunctionality.userFind(scan);
+                    break;
+                case "9":
+                    if (!isManager) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    ManagerFunctionality.createUser(scan);
                 default:
                     System.out.println("Invalid option.");
             }
