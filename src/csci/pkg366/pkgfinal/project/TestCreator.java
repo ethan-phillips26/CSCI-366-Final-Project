@@ -23,195 +23,292 @@ public class TestCreator {
     static String username = "postgres";
     static String password = "postgres123";
     
-    public void AnswerBuilder(Questions q){
+    public void AnswerBuilder(int q_id){
         String correct = "";
-        Answers answer1 = new Answers();
-        Answers answer2 = new Answers();
-        Answers answer3 = new Answers();
-        Answers answer4 = new Answers();
         int input;
-        Collection<Answers> collection = new ArrayList<Answers>() {};
+        String answer1 = "";
+        String answer2 = "";
+        String answer3 = "";
+        String answer4 = "";
+        boolean corr1 = false;
+        boolean corr2 = false;
+        boolean corr3 = false;
+        boolean corr4 = false;
+        String sql = "INSERT INTO Answers(answer_text, is_correct, question_id) VALUES (?, ?, ?)";
         System.out.print("How many options(1-4)?:");
         input = scan.nextInt();
         
         switch(input){
             case 1:
                 System.out.println("Answer 1:");
-                answer1.setAnswerText(scan.nextLine());
+                answer1 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer1.setIsCorrect(Boolean.TRUE);
+                        corr1 = true;
                     case("N"):
-                        answer1.setIsCorrect(Boolean.FALSE);
+                        corr1 = false;
                 }
-                collection.add(answer1);
-                answer1.setQuestionId(q);
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer1);
+                    ps.setBoolean(2, corr1);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
+                }
             case 2:
                 System.out.println("Answer 1:");
-                answer1.setAnswerText(scan.nextLine());
+                answer1 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer1.setIsCorrect(Boolean.TRUE);
+                        corr1 = true;
                     case("N"):
-                        answer1.setIsCorrect(Boolean.FALSE);
+                        corr1 = false;
+                }
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer1);
+                    ps.setBoolean(2, corr1);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
                 }
                 System.out.println("Answer 2:");
-                answer2.setAnswerText(scan.nextLine());
+                answer2 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer2.setIsCorrect(Boolean.TRUE);
+                        corr2 = true;
                     case("N"):
-                        answer2.setIsCorrect(Boolean.FALSE);
+                        corr2 = false;
                 }
-                collection.add(answer1);
-                collection.add(answer2);
-                answer1.setQuestionId(q);
-                answer2.setQuestionId(q);
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer2);
+                    ps.setBoolean(2, corr2);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
+                }
             case 3:
                 System.out.println("Answer 1:");
-                answer1.setAnswerText(scan.nextLine());
+                answer1 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer1.setIsCorrect(Boolean.TRUE);
+                        corr1 = true;
                     case("N"):
-                        answer1.setIsCorrect(Boolean.FALSE);
+                        corr1 = false;
+                }
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer1);
+                    ps.setBoolean(2, corr1);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
                 }
                 System.out.println("Answer 2:");
-                answer2.setAnswerText(scan.nextLine());
+                answer2 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer2.setIsCorrect(Boolean.TRUE);
+                        corr2 = true;
                     case("N"):
-                        answer2.setIsCorrect(Boolean.FALSE);
+                        corr2 = false;
+                }
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer2);
+                    ps.setBoolean(2, corr2);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
                 }
                 System.out.println("Answer 3:");
-                answer3.setAnswerText(scan.nextLine());
+                answer3 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer3.setIsCorrect(Boolean.TRUE);
+                        corr3 = true;
                     case("N"):
-                        answer3.setIsCorrect(Boolean.FALSE);
+                        corr3 = false;
                 }
-                collection.add(answer1);
-                collection.add(answer2);
-                collection.add(answer3);
-                answer1.setQuestionId(q);
-                answer2.setQuestionId(q);
-                answer3.setQuestionId(q);
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer3);
+                    ps.setBoolean(2, corr3);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
+                }
             case 4:
                 System.out.println("Answer 1:");
-                answer1.setAnswerText(scan.nextLine());
+                answer1 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer1.setIsCorrect(Boolean.TRUE);
+                        corr1 = true;
                     case("N"):
-                        answer1.setIsCorrect(Boolean.FALSE);
+                        corr1 = false;
+                }
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer1);
+                    ps.setBoolean(2, corr1);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
                 }
                 System.out.println("Answer 2:");
-                answer2.setAnswerText(scan.nextLine());
+                answer2 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer2.setIsCorrect(Boolean.TRUE);
+                        corr2 = true;
                     case("N"):
-                        answer2.setIsCorrect(Boolean.FALSE);
+                        corr2 = false;
+                }
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer2);
+                    ps.setBoolean(2, corr2);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
                 }
                 System.out.println("Answer 3:");
-                answer3.setAnswerText(scan.nextLine());
+                answer3 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer3.setIsCorrect(Boolean.TRUE);
+                        corr3 = true;
                     case("N"):
-                        answer3.setIsCorrect(Boolean.FALSE);
+                        corr3 = false;
+                }
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer3);
+                    ps.setBoolean(2, corr3);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
                 }
                 System.out.println("Answer 4:");
-                answer4.setAnswerText(scan.nextLine());
+                answer4 = scan.nextLine();
                 System.out.println("Is it correct(Y/N)?:");
                 correct = scan.nextLine();
                 correct = correct.toUpperCase();
                 switch(correct){
                     case("Y"):
-                        answer4.setIsCorrect(Boolean.TRUE);
+                        corr4 = true;
                     case("N"):
-                        answer4.setIsCorrect(Boolean.FALSE);
+                        corr4 = false;
                 }
-                collection.add(answer1);
-                collection.add(answer2);
-                collection.add(answer3);
-                collection.add(answer4);
-                answer1.setQuestionId(q);
-                answer2.setQuestionId(q);
-                answer3.setQuestionId(q);
-                answer4.setQuestionId(q);
+                try (Connection conn = DatabaseConnection.getConnection();
+                    PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setString(1, answer4);
+                    ps.setBoolean(2, corr4);
+                    ps.setInt(3, q_id);
+                    ps.executeQuery();
+                }
+                catch (SQLException e) {
+                    System.out.println("DB error during account creation.");
+                }
         }
-        q.setAnswersCollection(collection);
     }
     
-    public void QuestionBuilder(Tests t){
-        Questions question = new Questions();
-        String textInput = "";
-        String enterAnsNow = "N";
-        int points = 0;
-        Collection<Questions> collection = t.getQuestionsCollection();
-        System.out.println("Enter the question:");
-        textInput = scan.nextLine();
-        question.setQuestionText(textInput);
-        System.out.println("Set answers now(Y/N)?:");
-        enterAnsNow = scan.nextLine();
-        enterAnsNow = enterAnsNow.toUpperCase();
-        if(enterAnsNow.equals("Y")){
-            AnswerBuilder(question);
+    public void QuestionBuilder(int t_id){
+        String questionText;
+        String enterAnsNow;
+        int points;
+        String sql = "INSERT INTO Questions (question_text, points) VALUES (?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            System.out.println("Enter the question:");
+            questionText = scan.nextLine();
+            System.out.println("How many points?:");
+            points = scan.nextInt();
+            ps.setString(1, questionText);
+            ps.setInt(2, points);
+            ResultSet rs = ps.executeQuery();
+            System.out.println("Set answers now(Y/N)?:");
+            enterAnsNow = scan.nextLine();
+            enterAnsNow = enterAnsNow.toUpperCase();
+            if(enterAnsNow.equals("Y")){
+                AnswerBuilder(rs.getInt("question_id"));
+            }
+            AddQuestion(t_id, rs.getInt("question_id"));
         }
-        System.out.println("How many points?:");
-        points = scan.nextInt();
-        collection.add(question);
-        t.setQuestionsCollection(collection);
+        catch (SQLException e) {
+            System.out.println("DB error during account creation.");
+        }
     }
     
-    public void TestBuilder(){
-        Tests test = new Tests();
+    public void TestBuilder(int c_id){
         String title;
         int questionNum;
+        String sql = "INSERT INTO Tests(title, creator_id) VALUES (?, ?)";
         System.out.println("Enter test title:");
         title = scan.nextLine();
-        test.setTitle(title);
-        System.out.println("How many questions?:");
-        questionNum = scan.nextInt();
-        for(int i = 0; i < questionNum; i++){
-            QuestionBuilder(test);
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, title);
+            ps.setInt(2, c_id);
+            ResultSet rs = ps.executeQuery();
+            System.out.println("How many questions?:");
+            questionNum = scan.nextInt();
+            for(int i = 0; i < questionNum; i++){
+                QuestionBuilder(rs.getInt("test_id"));
+            }
         }
+        catch (SQLException e) {
+            System.out.println("DB error during account creation.");
+        }
+        
     }
     
     public void DisplayCreatedTests(int id){
         try{
-            Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection(jdbcURL, username, password);
+            Connection connection = DatabaseConnection.getConnection();
             String getTests = "SELECT * FROM Tests WHERE creator_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getTests);
             pstmt.setInt(1, id);
@@ -223,11 +320,21 @@ public class TestCreator {
             }
             System.out.println("Done");
         }
-        catch(ClassNotFoundException e){
-            System.out.println("Cannot load postgresql driver");
-        }
         catch(SQLException e){
             System.out.println("Cannot connect");
+        }
+    }
+    
+    public void AddQuestion(int t_id, int q_id){
+        String sql = "INSERT INTO test_questions(test_id, question_id) VALUES (?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, t_id);
+            ps.setInt(2, q_id);
+            ps.executeQuery();
+        }
+        catch (SQLException e) {
+            System.out.println("DB error during account creation.");
         }
     }
 }
