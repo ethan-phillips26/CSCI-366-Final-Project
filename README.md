@@ -33,4 +33,4 @@ and score tracking with role-based functionality.
 1. Clone the repository
 2. Open in your IDE
 3. Run the `Main` class
-Note: If issues running, Install EclipseLink Library. Right-click project -> Properties -> Libraries -> plus sign -> Add Library... -> EclipseLink -> Add Library -> OK
+- Note: If issues running, Install EclipseLink Library. Right-click project -> Properties -> Libraries -> plus sign -> Add Library... -> EclipseLink -> Add Library -> OK
