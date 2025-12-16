@@ -36,7 +36,9 @@ public class TestCreator {
         boolean corr4 = false;
         String sql = "INSERT INTO Answers(answer_text, is_correct, question_id) VALUES (?, ?, ?)";
         System.out.print("How many options(1-4)?:");
-        input = scan.nextInt();
+        String temp;
+        temp = scan.nextLine();
+        input = Integer.parseInt(temp);
         
         switch(input){
             case 1:
@@ -270,7 +272,9 @@ public class TestCreator {
             System.out.println("Enter the question:");
             questionText = scan.nextLine();
             System.out.println("How many points?:");
-            points = scan.nextInt();
+            String temp;
+            temp = scan.nextLine();
+            points = Integer.parseInt(temp);
             ps.setString(1, questionText);
             ps.setInt(2, points);
             ps.executeUpdate();
@@ -305,7 +309,9 @@ public class TestCreator {
             rs.next();
             int newId = rs.getInt(1);
             System.out.println("How many questions?:");
-            questionNum = scan.nextInt();
+            String temp;
+            temp = scan.nextLine();
+            questionNum = Integer.parseInt(temp);
             for(int i = 0; i < questionNum; i++){
                 QuestionBuilder(newId);
             }

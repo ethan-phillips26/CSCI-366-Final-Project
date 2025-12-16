@@ -155,19 +155,24 @@ public class CSCI366FinalProject {
                     break;
                 case "8":
                     System.out.print("Enter user ID:");
-                    int userID = scan.nextInt();
+                    String temp;
+                    temp = scan.nextLine();
+                    int userID = Integer.parseInt(temp);
                     testCreator.DisplayCreatedTests(userID);
                 case "9":
                     System.out.print("Enter user ID:");
-                    int userIDTest = scan.nextInt();
+                    temp = scan.nextLine();
+                    int userIDTest = Integer.parseInt(temp);
                     testCreator.TestBuilder(userIDTest);
                 case "10":
                     System.out.print("Enter question ID:");
-                    int questionIDAnswers = scan.nextInt();
+                    temp = scan.nextLine();
+                    int questionIDAnswers = Integer.parseInt(temp);
                     testCreator.AnswerBuilder(questionIDAnswers);
                 case "11":
                     System.out.print("Enter test ID:");
-                    int testIDQuestions = scan.nextInt();
+                    temp = scan.nextLine();
+                    int testIDQuestions = Integer.parseInt(temp);
                     testCreator.QuestionBuilder(testIDQuestions);
                 case "12":
                     System.out.println("1)Test, 2)Question, 3)Answer");
@@ -175,23 +180,27 @@ public class CSCI366FinalProject {
                     switch(edit){
                         case "1":
                             System.out.print("Enter the test ID:");
-                            int testID = scan.nextInt();
+                            temp = scan.nextLine();
+                            int testID = Integer.parseInt(temp);
                             System.out.print("Enter the new name:");
                             String name = scan.nextLine();
                             testCreator.editTest(testID, name);
                             break;
                         case "2":
                             System.out.print("Enter the question ID:");
-                            int questionID = scan.nextInt();
+                            temp = scan.nextLine();
+                            int questionID = Integer.parseInt(temp);
                             System.out.print("Enter the new question:");
                             String questionText = scan.nextLine();
                             System.out.print("Enter the new points:");
-                            int points = scan.nextInt();
+                            temp = scan.nextLine();
+                            int points = Integer.parseInt(temp);
                             testCreator.editQuestion(questionID, questionText, points);
                             break;
                         case "3":
                             System.out.print("Enter the answer ID:");
-                            int answerID = scan.nextInt();
+                            temp = scan.nextLine();
+                            int answerID = Integer.parseInt(temp);
                             System.out.print("Enter the new answer:");
                             String answerText = scan.nextLine();
                             System.out.print("Is it correct?(Y/N):");
@@ -212,17 +221,20 @@ public class CSCI366FinalProject {
                     switch(delete){
                         case "1":
                             System.out.print("Enter the test ID:");
-                            int testID = scan.nextInt();
+                            temp = scan.nextLine();
+                            int testID = Integer.parseInt(temp);
                             testCreator.deleteTest(testID);
                             break;
                         case "2":
                             System.out.print("Enter the question ID:");
-                            int questionID = scan.nextInt();
+                            temp = scan.nextLine();
+                            int questionID = Integer.parseInt(temp);
                             testCreator.deleteQuestion(questionID);
                             break;
                         case "3":
                             System.out.print("Enter the answer ID:");
-                            int answerID = scan.nextInt();
+                            temp = scan.nextLine();
+                            int answerID = Integer.parseInt(temp);
                             testCreator.deleteAnswer(answerID);
                             break;
                         default:
