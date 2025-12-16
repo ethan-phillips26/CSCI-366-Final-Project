@@ -5,6 +5,13 @@ import java.sql.*;
 import java.util.*;
 
 /**
+ * Console-driven "Student" features backed by PostgreSQL.
+ *
+ * Notes:
+ * - This class intentionally uses JDBC (via DatabaseConnection) and avoids
+ *   relying on JPA mappings, because the schema details in sql.txt are incomplete.
+ * - It tries to be resilient to small column-name differences by using metadata
+ *   and reflection where needed.
  * 
  * @author Hariom Pughat
  */
@@ -155,7 +162,7 @@ public class Student {
 
             int total = questions.size();
             System.out.println();
-            System.out.println("Finished. Your Score Is: " + correct + " / " + total);
+            System.out.println("Finished! Your Score Is: " + correct + " / " + total);
 
             // Save result
             saveResult(connector, userId, testId, correct, total);
@@ -183,7 +190,7 @@ public class Student {
             WHERE r.user_id = ?
             ORDER BY r.result_id DESC
             """,
-            "SELECT * FROM results WHERE user_id = ? ORDER BY result_id DESC"
+            "SELECT result_id, test_id, score FROM results WHERE user_id = ? ORDER BY result_id DESC"
         );
 
         try (Connection conn = DatabaseConnection.getConnection()) {
@@ -195,19 +202,37 @@ public class Student {
                     try (ResultSet rs = ps.executeQuery()) {
                         ran = true;
                         ResultSetMetaData md = rs.getMetaData();
-                        int cols = md.getColumnCount();
+
+                        boolean hasTitle = hasColumn(md, "title");
+                        int resultIdCol = findAnyColumn(md, "result_id");
+                        int testIdCol = findAnyColumn(md, "test_id");
+                        int scoreCol = findAnyColumn(md, "score");
+                        int titleCol = hasTitle ? findAnyColumn(md, "title") : -1;
+
+                        out.append(String.format("%-10s %-8s %-28s %-6s%n", "ResultID", "TestID", "Title", "Score"));
+                        out.append(String.format("%-10s %-8s %-28s %-6s%n", "--------", "------", "-----", "-----"));
 
                         int rows = 0;
                         while (rs.next()) {
                             rows++;
-                            out.append("- ");
-                            int show = Math.min(cols, 6);
-                            for (int i = 1; i <= show; i++) {
-                                if (i > 1) out.append(" | ");
-                                out.append(md.getColumnLabel(i)).append("=").append(rs.getString(i));
-                            }
-                            out.append("\n");
+                            String rid = rs.getString(resultIdCol);
+                            String tid = rs.getString(testIdCol);
+                            String score = rs.getString(scoreCol);
+                            String title = hasTitle ? rs.getString(titleCol) : "";
+
+                            if (title == null) title = "";
+                            title = title.replaceAll("\\s+", " ").trim();
+                            if (title.length() > 28) title = title.substring(0, 25) + "...";
+
+                            out.append(String.format(
+                                    "%-10s %-8s %-28s %-6s%n",
+                                    rid == null ? "" : rid,
+                                    tid == null ? "" : tid,
+                                    title,
+                                    score == null ? "" : score
+                            ));
                         }
+
                         if (rows == 0) out.append("(No past results found.)\n");
                     }
                     break; // success
@@ -406,7 +431,7 @@ public class Student {
             }
         }
 
-        throw new SQLException("Unable to insert into results (schema mismatch).");
+        throw new SQLException("Unable to insert into results.");
     }
 
     private static Integer extractId(Object obj, String... getterCandidates) {
