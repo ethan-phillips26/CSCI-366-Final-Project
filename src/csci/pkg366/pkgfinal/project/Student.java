@@ -36,7 +36,7 @@ public class Student {
         StringBuilder out = new StringBuilder();
         out.append("==== Available Tests ====\n");
 
-        // Prefer a simple, likely schema; fall back to SELECT * if needed.
+        // Prefer simple
         List<String> queries = List.of(
             "SELECT test_id, title FROM tests ORDER BY test_id",
             "SELECT test_id, test_name FROM tests ORDER BY test_id",

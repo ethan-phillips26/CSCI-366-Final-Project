@@ -158,9 +158,8 @@ public class ManagerFunctionality {
                     + "\n3) user_type: " + user.getUserType()
                     + "\n4) username: " + user.getUsername()
                     + "\n5) password: " + user.getPassword()
-                    + "\n6) user_id: " + user.getUserId()
-                    + "\n7) delete user"
-                    + "\n8) cancel"
+                    + "\n6) delete user"
+                    + "\n7) cancel"
                     + "\nEnter number: ");
             String option = scan.next();
             switch (option) {
@@ -190,20 +189,9 @@ public class ManagerFunctionality {
                     Users.updatePassword(password, user.getUserId());
                     break;
                 case "6":
-                    System.out.print("Enter new user_id: ");
-                    String user_id = scan.next();
-                    int id;
-                    try {
-                        id = Integer.parseInt(user_id);
-                        Users.updateId(id, user.getUserId());
-                    } catch (NumberFormatException nfe) {
-                        System.out.println("Invalid ID");
-                    }
-                    break;
-                case "7":
                     Users.deleteUser(user.getUserId());
                     return;
-                case "8":
+                case "7":
                     return;
                 
             }

@@ -256,8 +256,8 @@ public class Users implements Serializable {
             String getUsers = "UPDATE users SET firstname = ? WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setString(1, firstn);
-            pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error updating");
         }
@@ -269,8 +269,8 @@ public class Users implements Serializable {
             String getUsers = "UPDATE users SET lastname = ? WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setString(1, lastn);
-            pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error updating");
         }
@@ -286,8 +286,8 @@ public class Users implements Serializable {
             String getUsers = "UPDATE users SET userType = ? WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setString(1, userType);
-            pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error updating");
         }
@@ -299,8 +299,8 @@ public class Users implements Serializable {
             String getUsers = "UPDATE users SET username = ? WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setString(1, username);
-            pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error updating");
         }
@@ -312,8 +312,8 @@ public class Users implements Serializable {
             String getUsers = "UPDATE users SET password = ? WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setString(1, password);
-            pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error updating");
         }
@@ -325,8 +325,8 @@ public class Users implements Serializable {
             String getUsers = "UPDATE users SET user_id = ? WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setInt(1, newId);
-            pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error updating");
         }
@@ -338,7 +338,7 @@ public class Users implements Serializable {
             String getUsers = "DELETE FROM users WHERE user_id = ?";
             PreparedStatement pstmt = connection.prepareStatement(getUsers);
             pstmt.setInt(1, id);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error deleting");
         }
@@ -360,7 +360,7 @@ public class Users implements Serializable {
             pstmt.setString(3, usertype);
             pstmt.setString(4, username);
             pstmt.setString(5, password);
-            pstmt.executeQuery();
+            pstmt.executeUpdate();
         } catch (SQLException sqle) {
             System.out.println("error creating");
         }
