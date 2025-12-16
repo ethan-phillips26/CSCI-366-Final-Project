@@ -45,8 +45,10 @@ public class ManagerFunctionality {
         
         //choose user lookup method
         while (true) {
+            long count = Users.getUserCount();
             System.out.print(
-                    "\n\n\n\nEnter User lookup method\n"
+                    "\n\n\n\nUser Count: " + count + "\n"
+                    + "Enter User lookup method\n"
                     + "1) user_id\n"
                     + "2) name\n"
                     + "3) username\n"

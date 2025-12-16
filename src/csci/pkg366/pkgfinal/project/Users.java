@@ -160,6 +160,23 @@ public class Users implements Serializable {
     }
     
     // SQLQueries
+    public static long getUserCount() {
+        try {
+            String getCount = "SELECT COUNT(*) as c FROM users";
+            Connection connection = DatabaseConnection.getConnection();
+            
+            PreparedStatement pstmt = connection.prepareStatement(getCount);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                return rs.getLong("c");
+            }
+        
+            } catch (SQLException sqle) {
+                return -1;
+            }
+            return -1;
+    }
+    
     public static Users getUserById(int id) {
         try {
             //temp connection. We should make a connection class.
