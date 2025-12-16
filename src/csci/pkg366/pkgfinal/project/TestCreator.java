@@ -56,11 +56,12 @@ public class TestCreator {
                     ps.setString(1, answer1);
                     ps.setBoolean(2, corr1);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
                 }
+                break;
             case 2:
                 System.out.println("Answer 1:");
                 answer1 = scan.nextLine();
@@ -78,7 +79,7 @@ public class TestCreator {
                     ps.setString(1, answer1);
                     ps.setBoolean(2, corr1);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
@@ -99,11 +100,12 @@ public class TestCreator {
                     ps.setString(1, answer2);
                     ps.setBoolean(2, corr2);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
                 }
+                break;
             case 3:
                 System.out.println("Answer 1:");
                 answer1 = scan.nextLine();
@@ -121,7 +123,7 @@ public class TestCreator {
                     ps.setString(1, answer1);
                     ps.setBoolean(2, corr1);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
@@ -142,7 +144,7 @@ public class TestCreator {
                     ps.setString(1, answer2);
                     ps.setBoolean(2, corr2);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
@@ -163,11 +165,12 @@ public class TestCreator {
                     ps.setString(1, answer3);
                     ps.setBoolean(2, corr3);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
                 }
+                break;
             case 4:
                 System.out.println("Answer 1:");
                 answer1 = scan.nextLine();
@@ -185,7 +188,7 @@ public class TestCreator {
                     ps.setString(1, answer1);
                     ps.setBoolean(2, corr1);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
@@ -206,7 +209,7 @@ public class TestCreator {
                     ps.setString(1, answer2);
                     ps.setBoolean(2, corr2);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
@@ -227,7 +230,7 @@ public class TestCreator {
                     ps.setString(1, answer3);
                     ps.setBoolean(2, corr3);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
@@ -248,11 +251,12 @@ public class TestCreator {
                     ps.setString(1, answer4);
                     ps.setBoolean(2, corr4);
                     ps.setInt(3, q_id);
-                    ps.executeQuery();
+                    ps.executeUpdate();
                 }
                 catch (SQLException e) {
                     System.out.println("DB error during account creation.");
                 }
+                break;
         }
     }
     
@@ -262,21 +266,24 @@ public class TestCreator {
         int points;
         String sql = "INSERT INTO Questions (question_text, points) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             System.out.println("Enter the question:");
             questionText = scan.nextLine();
             System.out.println("How many points?:");
             points = scan.nextInt();
             ps.setString(1, questionText);
             ps.setInt(2, points);
-            ResultSet rs = ps.executeQuery();
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            int newId = rs.getInt(1);
             System.out.println("Set answers now(Y/N)?:");
             enterAnsNow = scan.nextLine();
             enterAnsNow = enterAnsNow.toUpperCase();
             if(enterAnsNow.equals("Y")){
-                AnswerBuilder(rs.getInt("question_id"));
+                AnswerBuilder(newId);
             }
-            AddQuestion(t_id, rs.getInt("question_id"));
+            AddQuestion(t_id, newId);
         }
         catch (SQLException e) {
             System.out.println("DB error during account creation.");
@@ -290,14 +297,17 @@ public class TestCreator {
         System.out.println("Enter test title:");
         title = scan.nextLine();
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, title);
             ps.setInt(2, c_id);
-            ResultSet rs = ps.executeQuery();
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            int newId = rs.getInt(1);
             System.out.println("How many questions?:");
             questionNum = scan.nextInt();
             for(int i = 0; i < questionNum; i++){
-                QuestionBuilder(rs.getInt("test_id"));
+                QuestionBuilder(newId);
             }
         }
         catch (SQLException e) {
@@ -331,10 +341,120 @@ public class TestCreator {
             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, t_id);
             ps.setInt(2, q_id);
-            ps.executeQuery();
+            ps.executeUpdate();
         }
         catch (SQLException e) {
             System.out.println("DB error during account creation.");
+        }
+    }
+    
+    public void editTest(int testId, String newTitle) {
+        String sql = "UPDATE Tests SET title = ? WHERE test_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newTitle);
+            ps.setInt(2, testId);
+            ps.executeUpdate();
+
+            System.out.println("Test updated successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error updating test.");
+        }
+    }
+    
+    public void editQuestion(int questionId, String newText, int newPoints) {
+        String sql = "UPDATE Questions SET question_text = ?, points = ? WHERE question_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newText);
+            ps.setInt(2, newPoints);
+            ps.setInt(3, questionId);
+            ps.executeUpdate();
+
+            System.out.println("Question updated successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error updating question.");
+        }
+    }
+    
+    public void editAnswer(int answerId, String newText, boolean isCorrect) {
+        String sql = "UPDATE Answers SET answer_text = ?, is_correct = ? WHERE answer_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, newText);
+            ps.setBoolean(2, isCorrect);
+            ps.setInt(3, answerId);
+            ps.executeUpdate();
+
+            System.out.println("Answer updated successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error updating answer.");
+        }
+    }
+    
+    public void deleteAnswer(int answerId) {
+        String sql = "DELETE FROM Answers WHERE answer_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, answerId);
+            ps.executeUpdate();
+
+            System.out.println("Answer deleted.");
+        } catch (SQLException e) {
+            System.out.println("Error deleting answer.");
+        }
+    }
+    
+    public void deleteQuestion(int questionId) {
+        String deleteTestLinks = "DELETE FROM test_questions WHERE question_id = ?";
+        String deleteAnswers   = "DELETE FROM Answers WHERE question_id = ?";
+        String deleteQuestion  = "DELETE FROM Questions WHERE question_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            PreparedStatement ps1 = conn.prepareStatement(deleteTestLinks);
+            ps1.setInt(1, questionId);
+            ps1.executeUpdate();
+
+            PreparedStatement ps2 = conn.prepareStatement(deleteAnswers);
+            ps2.setInt(1, questionId);
+            ps2.executeUpdate();
+
+            PreparedStatement ps3 = conn.prepareStatement(deleteQuestion);
+            ps3.setInt(1, questionId);
+            ps3.executeUpdate();
+
+            System.out.println("Question deleted successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error deleting question.");
+        }
+    }
+    
+    public void deleteTest(int testId) {
+        String deleteLinks = "DELETE FROM test_questions WHERE test_id = ?";
+        String deleteTest  = "DELETE FROM Tests WHERE test_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()) {
+
+            PreparedStatement ps1 = conn.prepareStatement(deleteLinks);
+            ps1.setInt(1, testId);
+            ps1.executeUpdate();
+
+            PreparedStatement ps2 = conn.prepareStatement(deleteTest);
+            ps2.setInt(1, testId);
+            ps2.executeUpdate();
+
+            System.out.println("Test deleted successfully.");
+        } catch (SQLException e) {
+            System.out.println("Error deleting test.");
         }
     }
 }
