@@ -76,12 +76,12 @@ public class CSCI366FinalProject {
                 System.out.println("7) View results (pick a test)");
             }
             if (isTestCreator){
-                System.out.println("8) View created tests");
-                System.out.println("9) Create a test");
-                System.out.println("10) Add answers to a question");
-                System.out.println("11) Add questions to a test");
-                System.out.println("12) Edit a test, question or answer");
-                System.out.println("13) Delete a test, question or answer");
+                System.out.println("10) View created tests");
+                System.out.println("11) Create a test");
+                System.out.println("12) Add answers to a question");
+                System.out.println("13) Add questions to a test");
+                System.out.println("14) Edit a test, question or answer");
+                System.out.println("15) Delete a test, question or answer");
             }
             System.out.print("Choose: ");
 
@@ -153,28 +153,28 @@ public class CSCI366FinalProject {
                         pause(scan);
                     }
                     break;
-                case "8":
+                case "10":
                     System.out.print("Enter user ID:");
                     String temp;
                     temp = scan.nextLine();
                     int userID = Integer.parseInt(temp);
                     testCreator.DisplayCreatedTests(userID);
-                case "9":
+                case "11":
                     System.out.print("Enter user ID:");
                     temp = scan.nextLine();
                     int userIDTest = Integer.parseInt(temp);
                     testCreator.TestBuilder(userIDTest);
-                case "10":
+                case "12":
                     System.out.print("Enter question ID:");
                     temp = scan.nextLine();
                     int questionIDAnswers = Integer.parseInt(temp);
                     testCreator.AnswerBuilder(questionIDAnswers);
-                case "11":
+                case "13":
                     System.out.print("Enter test ID:");
                     temp = scan.nextLine();
                     int testIDQuestions = Integer.parseInt(temp);
                     testCreator.QuestionBuilder(testIDQuestions);
-                case "12":
+                case "14":
                     System.out.println("1)Test, 2)Question, 3)Answer");
                     String edit = scan.nextLine();
                     switch(edit){
@@ -215,7 +215,7 @@ public class CSCI366FinalProject {
                         default:
                             System.out.println("Invalid Option");
                     }
-                case "13":
+                case "15":
                     System.out.println("1)Test, 2)Question, 3)Answer");
                     String delete = scan.nextLine();
                     switch(delete){
