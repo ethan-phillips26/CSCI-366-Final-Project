@@ -15,7 +15,8 @@ public class CSCI366FinalProject {
         
 
         while (true) {
-            System.out.println("\n==== Online Testing System ====");
+            System.out.println("\n
+                               == Online Testing System ====");
             System.out.println("1) Login");
             System.out.println("2) Create Account");
             System.out.println("3) Exit");
@@ -102,6 +103,7 @@ private static boolean studentMenu(Scanner scan, Users user) {
 
         case "1":
             clearConsole();
+
             ManageAccount.updateAccount(scan, user);
             pause(scan);
             return false;
@@ -142,6 +144,7 @@ private static boolean studentMenu(Scanner scan, Users user) {
                 System.out.println(student.ViewResults(t));
             } catch (NumberFormatException e) {
                 System.out.println("Invalid test_id.");
+
             }
             pause(scan);
             return false;
@@ -276,6 +279,7 @@ private static boolean creatorMenu(Scanner scan, Users user) {
                     testCreator.deleteAnswer(answerId);
                     break;
                 }
+                
                 default:
                     System.out.println("Invalid option.");
             }
@@ -297,6 +301,7 @@ private static boolean managerMenu(Scanner scan, Users user) {
     System.out.println("2) Delete account");
     System.out.println("3) Edit current users");
     System.out.println("4) Create new user");
+    System.out.println("5) View leaderboard");
     System.out.print("Choose: ");
 
     String choice = scan.nextLine().trim();
@@ -330,6 +335,16 @@ private static boolean managerMenu(Scanner scan, Users user) {
             ManagerFunctionality.createUser(scan);
             pause(scan);
             return false;
+        
+        case "5":
+                    if (!isManager) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    clearConsole();
+                    ManagerFunctionality.viewLeaderboard();
+                    pause(scan);
+                    break;
 
         default:
             System.out.println("Invalid option.");
