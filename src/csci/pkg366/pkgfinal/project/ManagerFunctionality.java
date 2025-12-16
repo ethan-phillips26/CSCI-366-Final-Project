@@ -4,13 +4,11 @@
  */
 package csci.pkg366.pkgfinal.project;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import java.util.Scanner;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.Scanner;
 /**
  *
  * @author benjk
@@ -210,5 +208,26 @@ public class ManagerFunctionality {
             
         }
         
+    }
+
+    public static void viewLeaderboard() {
+        try {
+            Connection connection = DatabaseConnection.getConnection();
+            String sql = "SELECT test_title, top_user, high_score FROM leaderboard_view";
+            PreparedStatement pstmt = connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            System.out.println("\n\nLeaderboard:");
+            System.out.printf("%-30s | %-20s | %s\n", "Test Title", "Top User", "High Score");
+            System.out.println("---------------------------------------------------------------");
+            while (rs.next()) {
+                String title = rs.getString("test_title");
+                String topUser = rs.getString("top_user");
+                int highScore = rs.getInt("high_score");
+                System.out.printf("%-30s | %-20s | %d\n", title, topUser, highScore);
+            }
+        } catch (SQLException sqle) {
+            System.out.println("Error retrieving leaderboard: " + sqle.getMessage());
+        }
     }
 }

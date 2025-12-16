@@ -77,6 +77,7 @@ public class CSCI366FinalProject {
             if (isManager) {
                 System.out.println("8) Edit Current Users");
                 System.out.println("9) Create new User");
+                System.out.println("10) View leaderboard");
             }
             System.out.print("Choose: ");
 
@@ -161,6 +162,16 @@ public class CSCI366FinalProject {
                         break;
                     }
                     ManagerFunctionality.createUser(scan);
+                    break;
+                case "10":
+                    if (!isManager) {
+                        System.out.println("Invalid option.");
+                        break;
+                    }
+                    clearConsole();
+                    ManagerFunctionality.viewLeaderboard();
+                    pause(scan);
+                    break;
                 default:
                     System.out.println("Invalid option.");
             }
